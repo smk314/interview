@@ -11,22 +11,22 @@ def three_sum(nums: list[int]) -> list[list[int]]:
     """
     nums.sort()
     res: list[list[int]] = []
-    for i in range(len(nums)):
+    for i in range(len(nums) - 2):
         if i > 0 and nums[i] == nums[i - 1]:
             continue
         target = -nums[i]
-        l, r = i + 1, len(nums) - 1  # noqa: E741
+        l, r = i + 1, len(nums) - 1
         while l < r:
             sum = nums[l] + nums[r]
             if sum < target:
-                l += 1  # noqa: E741
+                l += 1
             elif sum > target:
                 r -= 1
             else:  # sum == target
                 res.append([nums[i], nums[l], nums[r]])
-                l += 1  # noqa: E741
+                l += 1
                 while l < r and nums[l] == nums[l - 1]:
-                    l += 1  # noqa: E741
+                    l += 1
                 r -= 1
                 while l < r and nums[r] == nums[r + 1]:
                     r -= 1
@@ -41,11 +41,11 @@ def two_sum(nums: list[int], target: int) -> bool:
     >>> two_sum([1, 3, 4, 6, 8, 10, 13], 6)
     False
     """
-    l, r = 0, len(nums) - 1  # noqa: E741
+    l, r = 0, len(nums) - 1
     while l < r:
         sum = nums[l] + nums[r]
         if sum < target:
-            l += 1  # noqa: E741
+            l += 1
         elif sum > target:
             r -= 1
         else:
@@ -69,12 +69,12 @@ def max_area(heights: list[int]) -> int:
     for i in range(len(heights) - 2, -1, -1):
         if heights[i] > heights[right[-1]]:
             right.append(i)
-    l = r = max_area = 0  # noqa: E741
+    l = r = max_area = 0
     while l < len(left) and r < len(right) and left[l] < right[r]:
         lh, rh = heights[left[l]], heights[right[r]]
         max_area = max(max_area, min(lh, rh) * (right[r] - left[l]))
         if lh < rh:
-            l += 1  # noqa: E741
+            l += 1
         else:
             r += 1
     return max_area
