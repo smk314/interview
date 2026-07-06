@@ -1,7 +1,126 @@
 # ===============
+# Variable Length Sliding Window
+# https://www.hellointerview.com/learn/code/sliding-window/variable-length
+# ===============
+
+
+# https://www.hellointerview.com/learn/code/sliding-window/longest-repeating-character-replacement
+def char_replacement(s: str, k: int) -> int:
+    """
+    >>> char_replacement("BBABCCDD", 2)
+    5
+    """
+    counter: dict[str, int] = dict()
+    start = end = max_length = 0
+    while end < len(s):
+        if s[end] not in counter:
+            counter[s[end]] = 0
+        counter[s[end]] += 1
+        while max(counter.values()) + k < end - start + 1:
+            counter[s[start]] -= 1
+            if counter[s[start]] == 0:
+                del counter[s[start]]
+            start += 1
+        max_length = max(max_length, end - start + 1)
+        end += 1
+    return max_length
+
+
+# https://www.hellointerview.com/learn/code/sliding-window/longest-substring-without-repeating-characters
+def longest_substr_without_repeat(s: str) -> int:
+    """
+    >>> longest_substr_without_repeat("eghghhgg")
+    3
+    >>> longest_substr_without_repeat("substring")
+    8
+    """
+    index: dict[str, int] = dict()
+    start = end = max_length = 0
+    while end < len(s):
+        if s[end] in index:
+            start = max(start, index[s[end]] + 1)
+        max_length = max(max_length, end - start + 1)
+        index[s[end]] = end
+        end += 1
+    return max_length
+
+
+# ===============
+# Fixed Length Sliding Window
+# https://www.hellointerview.com/learn/code/sliding-window/fixed-length
+# ===============
+
+
+# https://www.hellointerview.com/learn/code/sliding-window/maximum-sum-of-distinct-subarrays-with-length-k
+def max_unique_sum(nums: list[int], k: int) -> int:
+    """
+    >>> max_unique_sum([3, 2, 2, 3, 4, 6, 7, 7, -1], 4)
+    20
+    >>> max_unique_sum([5, 5, 5, 5, 5], 3)
+    0
+    """
+    counter: dict[int, int] = dict()
+    sum = 0
+    for i in range(k):
+        if nums[i] not in counter:
+            counter[nums[i]] = 0
+        counter[nums[i]] += 1
+        sum += nums[i]
+    max_sum = 0
+    if len(counter) == k:
+        max_sum = sum
+    for i in range(k, len(nums)):
+        rm = nums[i - k]
+        counter[rm] -= 1
+        if counter[rm] == 0:
+            del counter[rm]
+        sum -= rm
+        add = nums[i]
+        if add not in counter:
+            counter[add] = 0
+        counter[add] += 1
+        sum += add
+        if len(counter) == k:
+            max_sum = max(max_sum, sum) if max_sum != 0 else sum
+    return max_sum
+
+
+# https://www.hellointerview.com/learn/code/sliding-window/maximum-sum-of-subarrays-of-size-k
+def max_sum(nums: list[int], k: int) -> int:
+    """
+    >>> max_sum([2, 1, 5, 1, 3, 2], 3)
+    9
+    """
+    s = sum(nums[:k])
+    m = s
+    for i in range(k, len(nums)):
+        s += nums[i] - nums[i - k]
+        m = max(m, s)
+    return m
+
+
+# https://www.hellointerview.com/learn/code/sliding-window/maximum-points-you-can-obtain-from-cards
+def max_score(cards: list[int], k: int) -> int:
+    """
+    >>> max_score([2, 11, 4, 5, 3, 9, 2], 3)
+    17
+    >>> max_score([1, 100, 10, 0, 4, 5, 6], 3)
+    111
+    """
+    n = len(cards) - k
+    s = sum(cards[:n])
+    m = s
+    for i in range(n, len(cards)):
+        s += cards[i] - cards[i - n]
+        m = min(m, s)
+    return sum(cards) - m
+
+
+# ===============
 # Two Pointers
 # https://www.hellointerview.com/learn/code/two-pointers/overview
 # ===============
+
 
 # https://www.hellointerview.com/learn/code/two-pointers/trapping-rain-water
 def trapping_water(height: list[int]) -> int:
