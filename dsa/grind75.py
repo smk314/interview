@@ -1,3 +1,75 @@
+from __future__ import annotations
+
+from typing import Optional
+
+
+# https://leetcode.com/problems/valid-palindrome
+def is_palindrome(s: str) -> bool:
+    """
+    >>> is_palindrome("A man, a plan, a canal: Panama")
+    True
+    >>> is_palindrome("race a car")
+    False
+    >>> is_palindrome(" ")
+    True
+    """
+    start, end = 0, len(s) - 1
+    while start < end:
+        while start < end and not s[start].isalnum():
+            start += 1
+        while start < end and not s[end].isalnum():
+            end -= 1
+        if s[start].lower() != s[end].lower():
+            return False
+        start, end = start + 1, end - 1
+    return True
+
+
+# https://leetcode.com/problems/best-time-to-buy-and-sell-stock
+def max_profit(prices: list[int]) -> int:
+    """
+    >>> max_profit([7, 1, 5, 3, 6, 4])
+    5
+    >>> max_profit([7, 6, 4, 3, 1])
+    0
+    """
+    min_so_far = prices[0]
+    max_profit = 0
+    for i in range(1, len(prices)):
+        max_profit = max(max_profit, prices[i] - min_so_far)
+        min_so_far = min(min_so_far, prices[i])
+    return max_profit
+
+
+# https://leetcode.com/problems/merge-two-sorted-lists
+def merge_two_lists(
+    list1: Optional[ListNode], list2: Optional[ListNode]
+) -> Optional[ListNode]:
+    """
+    >>> ListNode.to_list(merge_two_lists(ListNode.from_list([1, 2, 4]), ListNode.from_list([1, 3, 4])))
+    [1, 1, 2, 3, 4, 4]
+    >>> ListNode.to_list(merge_two_lists(ListNode.from_list([]), ListNode.from_list([])))
+    []
+    >>> ListNode.to_list(merge_two_lists(ListNode.from_list([]), ListNode.from_list([0])))
+    [0]
+    """
+    dummy = ListNode()
+    ptr = dummy
+    while list1 and list2:
+        if list1.val < list2.val:
+            ptr.next = list1
+            list1 = list1.next
+        else:
+            ptr.next = list2
+            list2 = list2.next
+        ptr = ptr.next
+    if list1:
+        ptr.next = list1
+    else:
+        ptr.next = list2
+    return dummy.next
+
+
 # https://leetcode.com/problems/valid-parentheses
 def is_valid(s: str) -> bool:
     """
@@ -42,3 +114,33 @@ def two_sum(nums: list[int], target: int) -> list[int]:
             return [index[need], i]
         index[n] = i
     raise Exception("no solution found")
+
+
+# ===============
+# Data Structures
+# ===============
+
+
+class ListNode:
+    def __init__(self, val: int = 0, next: Optional[ListNode] = None):
+        self.val = val
+        self.next = next
+
+    @classmethod
+    def from_list(cls, nums: list[int]) -> Optional[ListNode]:
+        if not nums:
+            return None
+        dummy = cls()
+        ptr = dummy
+        for n in nums:
+            ptr.next = cls(n)
+            ptr = ptr.next
+        return dummy.next
+
+    @classmethod
+    def to_list(cls, list: Optional[ListNode]) -> list[int]:
+        nums: list[int] = []
+        while list:
+            nums.append(list.val)
+            list = list.next
+        return nums
