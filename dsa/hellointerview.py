@@ -1,4 +1,61 @@
 # ===============
+# Intervals
+# https://www.hellointerview.com/learn/code/intervals/overview
+# ===============
+
+
+# https://www.hellointerview.com/learn/code/intervals/insert-interval
+def insert_interval(
+    intervals: list[list[int]], new_interval: list[int]
+) -> list[list[int]]:
+    """
+    >>> insert_interval([[1, 3], [6, 9]], [2, 5])
+    [[1, 5], [6, 9]]
+    >>> insert_interval([[1, 2], [3, 5], [6, 7], [8, 10]], [5, 6])
+    [[1, 2], [3, 7], [8, 10]]
+    >>> insert_interval([], [5, 7])
+    [[5, 7]]
+    """
+    updated: list[list[int]] = []
+    i = 0
+    while i < len(intervals):
+        start, end = intervals[i]
+        new_start, _ = new_interval
+        if end >= new_start:
+            new_interval[0] = min(new_start, start)
+            break
+        updated.append([start, end])
+        i += 1
+    while i < len(intervals):
+        start, end = intervals[i]
+        _, new_end = new_interval
+        if new_end < start:
+            break
+        new_interval[1] = max(new_end, end)
+        i += 1
+    updated.append(new_interval)
+    updated += intervals[i:]
+    return updated
+
+
+# https://www.hellointerview.com/learn/code/intervals/can-attend-meetings
+def can_attend_meetings(intervals: list[list[int]]) -> bool:
+    """
+    >>> can_attend_meetings([[1, 5], [3, 9], [6, 8]])
+    False
+    >>> can_attend_meetings( [[10, 12], [6, 9], [13, 15]])
+    True
+    """
+    intervals.sort()
+    ptr = 0
+    for start, end in intervals:
+        if ptr > start:
+            return False
+        ptr = max(ptr, end)
+    return True
+
+
+# ===============
 # Variable Length Sliding Window
 # https://www.hellointerview.com/learn/code/sliding-window/variable-length
 # ===============
