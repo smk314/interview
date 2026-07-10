@@ -4,6 +4,73 @@
 # ===============
 
 
+# https://www.hellointerview.com/learn/code/intervals/employee-free-time
+def employee_free_time(schedule: list[list[list[int]]]) -> list[list[int]]:
+    """
+    >>> employee_free_time([[[2, 4], [7, 10]], [[1, 5]], [[6, 9]]])
+    [[5, 6]]
+    """
+    intervals = [i for s in schedule for i in s]
+    if not intervals:
+        return []
+    merged: list[list[int]] = []
+    intervals.sort()
+    istart, iend = intervals[0]
+    for i in range(1, len(intervals)):
+        start, end = intervals[i]
+        if iend < start:
+            merged.append([istart, iend])
+            istart, iend = start, end
+        else:
+            iend = max(iend, end)
+    merged.append([istart, iend])
+    free: list[list[int]] = []
+    for i in range(len(merged) - 1):
+        free.append([merged[i][1], merged[i + 1][0]])
+    return free
+
+
+# https://www.hellointerview.com/learn/code/intervals/merge-intervals
+def merge_intervals(intervals: list[list[int]]) -> list[list[int]]:
+    """
+    >>> merge_intervals([[3, 5], [1, 4], [7, 9], [6, 8]])
+    [[1, 5], [6, 9]]
+    """
+    if not intervals:
+        return []
+    merged: list[list[int]] = []
+    intervals.sort()
+    istart, iend = intervals[0]
+    for i in range(1, len(intervals)):
+        start, end = intervals[i]
+        if iend < start:
+            merged.append([istart, iend])
+            istart, iend = start, end
+        else:
+            iend = max(iend, end)
+    merged.append([istart, iend])
+    return merged
+
+
+# https://www.hellointerview.com/learn/code/intervals/non-overlapping-intervals
+def non_overlapping_intervals(intervals: list[list[int]]) -> int:
+    """
+    >>> non_overlapping_intervals([[1, 3], [5, 8], [4, 10], [11, 13]])
+    1
+    """
+    if not intervals:
+        return 0
+    intervals.sort(key=lambda ivl: ivl[1])
+    iend = intervals[0][1]
+    cnt = 1
+    for i in range(1, len(intervals)):
+        start, end = intervals[i]
+        if iend <= start:
+            cnt += 1
+            iend = end
+    return len(intervals) - cnt
+
+
 # https://www.hellointerview.com/learn/code/intervals/insert-interval
 def insert_interval(
     intervals: list[list[int]], new_interval: list[int]
