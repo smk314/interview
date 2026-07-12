@@ -1,4 +1,70 @@
 # ===============
+# Stack
+# https://www.hellointerview.com/learn/code/stack/overview
+# ===============
+
+
+# https://www.hellointerview.com/learn/code/stack/decode-string
+def decode_string(s: str) -> str:
+    """
+    >>> decode_string("3[a]2[bc]")
+    'aaabcbc'
+    >>> decode_string("3[a2[c]]")
+    'accaccacc'
+    >>> decode_string("2[abc]3[cd]ef")
+    'abcabccdcdcdef'
+    """
+    cnt: list[int] = []
+    dec: list[str] = []
+    i = 0
+    res = ""
+    while i < len(s):
+        if s[i].isdigit():
+            c = int(s[i])
+            while s[i + 1].isdigit():
+                c = 10 * c + int(s[i + 1])
+                i += 1
+            cnt.append(c)
+        elif s[i] == "[":
+            dec.append("")
+        elif s[i] == "]":
+            d = dec.pop()
+            c = cnt.pop()
+            if dec:
+                dec[-1] += c * d
+            else:
+                res += c * d
+        else:  # char
+            if dec:
+                dec[-1] += s[i]
+            else:
+                res += s[i]
+        i += 1
+    return res
+
+
+# https://www.hellointerview.com/learn/code/stack/valid-parentheses
+def is_valid(s: str) -> bool:
+    """
+    >>> is_valid("(){({})}")
+    True
+    >>> is_valid("(){({}})")
+    False
+    """
+    brackets = {")": "(", "}": "{", "]": "["}
+    stack: list[str] = []
+    for c in s:
+        if c in brackets:
+            if stack and stack[-1] == brackets[c]:
+                stack.pop()
+            else:
+                return False
+        else:
+            stack.append(c)
+    return len(stack) == 0
+
+
+# ===============
 # Intervals
 # https://www.hellointerview.com/learn/code/intervals/overview
 # ===============
