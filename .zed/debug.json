@@ -1,0 +1,10 @@
+[
+  {
+    "label": "Doctest Current File",
+    "adapter": "Debugpy",
+    "request": "launch",
+    "module": "doctest",
+    "args": ["-v", "$ZED_FILE"],
+    "cwd": "$ZED_FILE_DIRNAME",
+  },
+]
