@@ -1,7 +1,5 @@
-# ===============
-# Stack
+# region Stack
 # https://www.hellointerview.com/learn/code/stack/overview
-# ===============
 
 
 # https://www.hellointerview.com/learn/code/stack/decode-string
@@ -64,10 +62,11 @@ def is_valid(s: str) -> bool:
     return len(stack) == 0
 
 
-# ===============
-# Intervals
+# endregion
+
+
+# region Intervals
 # https://www.hellointerview.com/learn/code/intervals/overview
-# ===============
 
 
 # https://www.hellointerview.com/learn/code/intervals/employee-free-time
@@ -188,10 +187,11 @@ def can_attend_meetings(intervals: list[list[int]]) -> bool:
     return True
 
 
-# ===============
-# Variable Length Sliding Window
+# endregion
+
+
+# region Variable Length Sliding Window
 # https://www.hellointerview.com/learn/code/sliding-window/variable-length
-# ===============
 
 
 # https://www.hellointerview.com/learn/code/sliding-window/longest-repeating-character-replacement
@@ -235,10 +235,11 @@ def longest_substr_without_repeat(s: str) -> int:
     return max_length
 
 
-# ===============
-# Fixed Length Sliding Window
+# endregion
+
+
+# region Fixed Length Sliding Window
 # https://www.hellointerview.com/learn/code/sliding-window/fixed-length
-# ===============
 
 
 # https://www.hellointerview.com/learn/code/sliding-window/maximum-sum-of-distinct-subarrays-with-length-k
@@ -306,10 +307,11 @@ def max_score(cards: list[int], k: int) -> int:
     return sum(cards) - m
 
 
-# ===============
-# Two Pointers
+# endregion
+
+
+# region Two Pointers
 # https://www.hellointerview.com/learn/code/two-pointers/overview
-# ===============
 
 
 # https://www.hellointerview.com/learn/code/two-pointers/trapping-rain-water
@@ -483,3 +485,6 @@ def max_area(heights: list[int]) -> int:
         else:
             r += 1
     return max_area
+
+
+# endregion
