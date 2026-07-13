@@ -1,6 +1,63 @@
 from __future__ import annotations
 
-from typing import Optional
+from collections import Counter, deque
+from typing import Deque, Optional
+
+
+# https://leetcode.com/problems/binary-search
+def search(nums: list[int], target: int) -> int:
+    """
+    >>> search([-1, 0, 3, 5, 9, 12], 9)
+    4
+    >>> search([-1, 0, 3, 5, 9, 12], 2)
+    -1
+    """
+    left, right = 0, len(nums) - 1
+    while left <= right:
+        mid = (left + right) // 2
+        if nums[mid] < target:
+            left = mid + 1
+        elif nums[mid] > target:
+            right = mid - 1
+        else:
+            return mid
+    return -1
+
+
+# https://leetcode.com/problems/valid-anagram
+def is_anagram(s: str, t: str) -> bool:
+    """
+    >>> is_anagram("anagram", "nagaram")
+    True
+    >>> is_anagram("rat", "car")
+    False
+    >>> is_anagram("ab", "a")
+    False
+    """
+    scnt = Counter(s)
+    tcnt = Counter(t)
+    if len(scnt) != len(tcnt):
+        return False
+    for k, v in tcnt.items():
+        if scnt[k] != v:
+            return False
+    return True
+
+
+# https://leetcode.com/problems/invert-binary-tree
+def invert_tree(root: Optional[TreeNode]) -> Optional[TreeNode]:
+    """
+    >>> TreeNode.to_list(invert_tree(TreeNode.from_list([4, 2, 7, 1, 3, 6, 9])))
+    [4, 7, 2, 9, 6, 3, 1]
+    >>> TreeNode.to_list(invert_tree(TreeNode.from_list([2, 1, 3])))
+    [2, 3, 1]
+    >>> TreeNode.to_list(invert_tree(TreeNode.from_list([])))
+    []
+    """
+    if not root:
+        return None
+    root.left, root.right = invert_tree(root.right), invert_tree(root.left)
+    return root
 
 
 # https://leetcode.com/problems/valid-palindrome
@@ -144,3 +201,52 @@ class ListNode:
             nums.append(list.val)
             list = list.next
         return nums
+
+
+class TreeNode:
+    def __init__(
+        self,
+        val: int = 0,
+        left: Optional[TreeNode] = None,
+        right: Optional[TreeNode] = None,
+    ):
+        self.val = val
+        self.left = left
+        self.right = right
+
+    @classmethod
+    def from_list(cls, nums: list[Optional[int]]) -> Optional[TreeNode]:
+        if not nums or nums[0] is None:
+            return None
+        root = cls(nums[0])
+        q = deque([root])
+        i = 1
+        while q and i < len(nums):
+            node = q.popleft()
+            if i < len(nums) and (n := nums[i]) is not None:
+                node.left = cls(n)
+                q.append(node.left)
+            i += 1
+            if i < len(nums) and (n := nums[i]) is not None:
+                node.right = cls(n)
+                q.append(node.right)
+            i += 1
+        return root
+
+    @classmethod
+    def to_list(cls, root: Optional[TreeNode]) -> list[Optional[int]]:
+        if root is None:
+            return []
+        res: list[Optional[int]] = []
+        q: Deque[Optional[TreeNode]] = deque([root])
+        while q:
+            node = q.popleft()
+            if node is None:
+                res.append(None)
+            else:
+                res.append(node.val)
+                q.append(node.left)
+                q.append(node.right)
+        while res and res[-1] is None:
+            res.pop()
+        return res
