@@ -32,7 +32,7 @@ def flood_fill(image: list[list[int]], sr: int, sc: int, color: int) -> list[lis
     row, col = len(image), len(image[0])
     visited: list[list[int]] = [[False] * col for _ in range(row)]
     visited[sr][sc] = True
-    q: Deque[Tuple[int, int]] = deque([(sr, sc)])
+    q: Deque[tuple[int, int]] = deque([(sr, sc)])
     orig = image[sr][sc]
     image[sr][sc] = color
     while q:
