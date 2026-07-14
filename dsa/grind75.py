@@ -4,6 +4,53 @@ from collections import Counter, deque
 from typing import Deque, Optional
 
 
+# https://leetcode.com/problems/maximum-subarray
+def max_subarray(nums: list[int]) -> int:
+    """
+    >>> max_subarray([-2, 1, -3, 4, -1, 2, 1, -5, 4])
+    6
+    >>> max_subarray([1])
+    1
+    >>> max_subarray([5, 4, -1, 7, 8])
+    23
+    """
+    max_ending_here = max_so_far = nums[0]
+    for i in range(1, len(nums)):
+        max_ending_here = max(max_ending_here + nums[i], nums[i])
+        max_so_far = max(max_so_far, max_ending_here)
+    return max_so_far
+
+
+# https://leetcode.com/problems/flood-fill
+def flood_fill(image: list[list[int]], sr: int, sc: int, color: int) -> list[list[int]]:
+    """
+    >>> flood_fill([[1, 1, 1], [1, 1, 0], [1, 0, 1]], 1, 1, 2)
+    [[2, 2, 2], [2, 2, 0], [2, 0, 1]]
+    >>> flood_fill([[0, 0, 0], [0, 0, 0]], 0, 0, 0)
+    [[0, 0, 0], [0, 0, 0]]
+    """
+    row, col = len(image), len(image[0])
+    visited: list[list[int]] = [[False] * col for _ in range(row)]
+    visited[sr][sc] = True
+    q: Deque[Tuple[int, int]] = deque([(sr, sc)])
+    orig = image[sr][sc]
+    image[sr][sc] = color
+    while q:
+        r, c = q.popleft()
+        for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            nr, nc = r + dr, c + dc
+            if (
+                0 <= nr < row
+                and 0 <= nc < col
+                and image[nr][nc] == orig
+                and not visited[nr][nc]
+            ):
+                visited[nr][nc] = True
+                q.append((nr, nc))
+                image[nr][nc] = color
+    return image
+
+
 # https://leetcode.com/problems/binary-search
 def search(nums: list[int], target: int) -> int:
     """
