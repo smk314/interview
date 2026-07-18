@@ -2,6 +2,49 @@
 # https://www.hellointerview.com/learn/code/stack/overview
 
 
+# https://www.hellointerview.com/learn/code/stack/largest-rectangle-in-histogram
+def largest_rectangle_area(heights: list[int]) -> int:
+    """
+    >>> largest_rectangle_area([2, 8, 5, 6, 2, 3])
+    15
+    """
+    stack: list[int] = []
+    left: list[int] = []
+    for i in range(len(heights)):
+        while stack and heights[stack[-1]] >= heights[i]:
+            stack.pop()
+        left.append(stack[-1] + 1 if stack else 0)
+        stack.append(i)
+    stack.clear()
+    right: list[int] = []
+    for i in range(len(heights) - 1, -1, -1):
+        while stack and heights[stack[-1]] >= heights[i]:
+            stack.pop()
+        right.append(stack[-1] - 1 if stack else len(heights) - 1)
+        stack.append(i)
+    right.reverse()
+    max_area = 0
+    for l, r, h in zip(left, right, heights):
+        max_area = max(max_area, (r - l + 1) * h)
+    return max_area
+
+
+# https://www.hellointerview.com/learn/code/stack/daily-temperatures
+def daily_temperatures(temps: list[int]) -> list[int]:
+    """
+    >>> daily_temperatures([65, 70, 68, 60, 55, 75, 80, 74])
+    [1, 4, 3, 2, 1, 1, 0, 0]
+    """
+    stack: list[int] = []
+    res: list[int] = [0] * len(temps)
+    for i, t in enumerate(temps):
+        while stack and temps[stack[-1]] < t:
+            j = stack.pop()
+            res[j] = i - j
+        stack.append(i)
+    return res
+
+
 # https://www.hellointerview.com/learn/code/stack/longest-valid-parentheses
 def longest_valid_parentheses(s: str) -> int:
     """
