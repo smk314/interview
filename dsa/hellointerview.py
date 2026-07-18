@@ -12,33 +12,17 @@ def longest_valid_parentheses(s: str) -> int:
     >>> longest_valid_parentheses("")
     0
     """
-    brackets = {")": "(", "}": "{", "]": "["}
-    stack: list[int] = []
-    intervals: list[list[int]] = []
-    for i, c in enumerate(s):
-        if c in brackets:
-            if stack and s[stack[-1]] == brackets[c]:
-                intervals.append([stack[-1], i])
-                stack.pop()
-            else:
-                stack.clear()
-        else:
-            stack.append(i)
-    if not intervals:
-        return 0
-    intervals.sort()
-    cur_start, cur_end = intervals[0]
+    stack = [-1]
     max_len = 0
-    for i in range(1, len(intervals)):
-        start, end = intervals[i]
-        if start > cur_end + 1:  # ()....()
-            max_len = max(max_len, cur_end - cur_start + 1)
-            cur_start, cur_end = start, end
-        elif start == cur_end + 1:  # ..()()..
-            cur_end = end
-        else:  # ..(())..
-            continue
-    max_len = max(max_len, cur_end - cur_start + 1)
+    for i, c in enumerate(s):
+        if c == "(":
+            stack.append(i)
+        else:
+            stack.pop()
+            if not stack:
+                stack.append(i)
+            else:
+                max_len = max(max_len, i - stack[-1])
     return max_len
 
 
