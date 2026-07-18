@@ -131,7 +131,6 @@ def is_valid(s: str) -> bool:
 
 # ---
 
-
 # +++ Intervals
 # https://www.hellointerview.com/learn/code/intervals/overview
 
@@ -256,7 +255,6 @@ def can_attend_meetings(intervals: list[list[int]]) -> bool:
 
 # ---
 
-
 # +++ Variable Length Sliding Window
 # https://www.hellointerview.com/learn/code/sliding-window/variable-length
 
@@ -303,7 +301,6 @@ def longest_substr_without_repeat(s: str) -> int:
 
 
 # ---
-
 
 # +++ Fixed Length Sliding Window
 # https://www.hellointerview.com/learn/code/sliding-window/fixed-length
@@ -375,7 +372,6 @@ def max_score(cards: list[int], k: int) -> int:
 
 
 # ---
-
 
 # +++ Two Pointers
 # https://www.hellointerview.com/learn/code/two-pointers/overview
