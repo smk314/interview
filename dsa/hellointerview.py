@@ -1,4 +1,4 @@
-# region Stack
+# +++ Stack
 # https://www.hellointerview.com/learn/code/stack/overview
 
 
@@ -129,10 +129,10 @@ def is_valid(s: str) -> bool:
     return len(stack) == 0
 
 
-# endregion
+# ---
 
 
-# region Intervals
+# +++ Intervals
 # https://www.hellointerview.com/learn/code/intervals/overview
 
 
@@ -254,10 +254,10 @@ def can_attend_meetings(intervals: list[list[int]]) -> bool:
     return True
 
 
-# endregion
+# ---
 
 
-# region Variable Length Sliding Window
+# +++ Variable Length Sliding Window
 # https://www.hellointerview.com/learn/code/sliding-window/variable-length
 
 
@@ -302,10 +302,10 @@ def longest_substr_without_repeat(s: str) -> int:
     return max_length
 
 
-# endregion
+# ---
 
 
-# region Fixed Length Sliding Window
+# +++ Fixed Length Sliding Window
 # https://www.hellointerview.com/learn/code/sliding-window/fixed-length
 
 
@@ -374,10 +374,10 @@ def max_score(cards: list[int], k: int) -> int:
     return sum(cards) - m
 
 
-# endregion
+# ---
 
 
-# region Two Pointers
+# +++ Two Pointers
 # https://www.hellointerview.com/learn/code/two-pointers/overview
 
 
@@ -554,4 +554,4 @@ def max_area(heights: list[int]) -> int:
     return max_area
 
 
-# endregion
+# ---
