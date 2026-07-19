@@ -1,3 +1,60 @@
+from typing import Optional
+
+from _common import ListNode
+
+# +++ Linked List
+# https://www.hellointerview.com/learn/code/linked-list/overview
+
+
+# https://www.hellointerview.com/learn/code/linked-list/palindrome-linked-list
+def is_palindrome(head: Optional[ListNode]) -> bool:
+    """
+    >>> is_palindrome(ListNode.from_list([1, 2, 3, 1]))
+    False
+    """
+    if not head:
+        return True
+    # step 1: find middle
+    slow = fast = head
+    while fast and fast.next:
+        assert slow.next
+        slow = slow.next
+        fast = fast.next.next
+    # step 2: reverse second half
+    prev = slow
+    next = slow.next
+    cnt = 1
+    while next:
+        tmp = next.next
+        next.next = prev
+        prev = next
+        next = tmp
+        cnt += 1
+    # step 3: cmp left and right
+    left, right = head, prev
+    while left and right and cnt > 0:
+        if left.val != right.val:
+            return False
+        left = left.next
+        right = right.next
+        cnt -= 1
+    return True
+
+
+# https://www.hellointerview.com/learn/code/linked-list/linked-list-cycle
+def has_cycle(head: ListNode) -> bool:
+    slow = fast = head
+    while fast and fast.next:
+        assert slow.next
+        slow = slow.next
+        fast = fast.next.next
+        if slow is fast:
+            return True
+    return False
+
+
+# ---
+
 # +++ Stack
 # https://www.hellointerview.com/learn/code/stack/overview
 
